@@ -61,7 +61,7 @@ function App() {
                         size={isMobile ? 350 : 500}
                         thickness={24}
                         label={
-                            <Stack align="center" style={{gap: 0}} onClick={open}>
+                            <Stack align="center" style={{gap: 0, cursor: "pointer"}} onClick={open}>
                                 <Text variant="gradient"
                                       gradient={{from: 'pink', to: 'yellow', deg: 135}}
                                       fw={700}
