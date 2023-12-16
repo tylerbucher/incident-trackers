@@ -3,6 +3,12 @@ import {Drawer, em, Group, RingProgress, Stack, Text} from "@mantine/core";
 import {useDisclosure, useInterval, useLocalStorage, useMediaQuery} from "@mantine/hooks";
 import {DateInput} from "@mantine/dates";
 
+function getCurrentDateMax() {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now.getTime()
+}
+
 function calcDays(first: number, second: number) {
     return Math.round((first - second) / (1000 * 60 * 60 * 24));
 }
@@ -13,14 +19,17 @@ function App() {
     const [startDate, setStartDate] = useLocalStorage({
         key: 'startDate',
         defaultValue: new Date(),
-        serialize: (value) => value.toString(),
+        serialize: (value) => {
+            value.setHours(0, 0, 0, 0);
+            return value.toString();
+        },
         deserialize: (value) => new Date(value ?? 0),
     });
     const [seconds, setSeconds] = useState(() => {
         const d = new Date();
         return 86400 - ((24 * 60 * 60) - (d.getHours() * 60 * 60) - (d.getMinutes() * 60) - d.getSeconds());
     });
-    const [days, setDays] = useState(calcDays(Date.now(), startDate.getTime()));
+    const [days, setDays] = useState(calcDays(getCurrentDateMax(), startDate.getTime()));
     const interval = useInterval(() => setSeconds((s) => {
         if (s > 86400) {
             setDays(d => d + 1);
@@ -32,7 +41,7 @@ function App() {
     const [opened, {open, close}] = useDisclosure(false);
 
     useEffect(() => {
-        setDays(calcDays(Date.now(), startDate.getTime()));
+        setDays(calcDays(getCurrentDateMax(), startDate.getTime()));
     }, [startDate]);
 
     const updateStartDate = (val: Date | null) => {
