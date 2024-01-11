@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Drawer, em, Group, RingProgress, Stack, Text} from "@mantine/core";
+import {Drawer, em, Group, RingProgress, Stack, Text, Tooltip} from "@mantine/core";
 import {useDisclosure, useInterval, useLocalStorage, useMediaQuery} from "@mantine/hooks";
 import {DateInput} from "@mantine/dates";
 
@@ -71,13 +71,17 @@ function App() {
                         thickness={24}
                         label={
                             <Stack align="center" style={{gap: 0, cursor: "pointer"}} onClick={open}>
-                                <Text variant="gradient"
-                                      gradient={{from: 'pink', to: 'yellow', deg: 135}}
-                                      fw={700}
-                                      fz={isMobile ? "50px" : "100px"} lh={1}
-                                >
-                                    {days}
-                                </Text>
+                                <Tooltip label="Click number to change the date" position="top" color="gray" styles={{
+                                    tooltip: {color: "white"}
+                                }}>
+                                    <Text variant="gradient"
+                                          gradient={{from: 'pink', to: 'yellow', deg: 135}}
+                                          fw={700}
+                                          fz={isMobile ? "50px" : "100px"} lh={1}
+                                    >
+                                        {days}
+                                    </Text>
+                                </Tooltip>
                                 <Text c="gray" fw={400} ta="center" size="xl">
                                     days
                                 </Text>
